@@ -1,0 +1,34 @@
+general_info:
+  author_name: "Wx"
+  author_email: "mohamedashrafwx@gmail.com"
+  version: "1.0.0" 
+  date: "22 Nov 23"
+  license:  "GPL 3.0"
+  description: "My linux working environment setup"
+setup:
+  preconditions:
+    setup_query: "sudo apt -y install gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf && sudo apt-get -y install bison flex bc libssl-dev make gcc"
+
+  mwd_ap: "~/Documents/linux_cots"
+
+  bootloader:
+    uboot:
+      - git_repo: https://github.com/u-boot/u-boot.git
+      - abs_path: "~/Documents/linux_cots/uboot"
+
+  linux_kernel:
+    abs_path: "~/Documents/linux_cots/linux_kernel"
+    rpi:
+      - git_repo: https://github.com/raspberrypi/linux.git
+      - abs_path: "~/Documents/linux_cots/linux_kernel/rpi"
+    bbb:
+      - git_repo: https://github.com/beagleboard/linux.git
+      - abs_path: "~/Documents/linux_cots/linux_kernel/bbb"
+
+  yocto:
+    - git_repo: https://git.yoctoproject.org/poky
+    - abs_path: "~/Documents/linux_cots/yocto/poky"
+
+  busybox:
+    - git_repo: git://busybox.net/busybox.git
+    - abs_path: "~/Documents/linux_cots/busybox"
