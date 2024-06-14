@@ -1,0 +1,100 @@
+# Packages to add in local.conf
+#Enble wifi
+# Edit on recipes-connectivity on oe layer
+ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=0
+update_config=1
+
+network={
+        ssid="MYSSID"
+        psk="MY-SECURE-PASSKEY"
+        proto=RSN
+        key_mgmt=WPA-PSK
+}
+
+DISTRO_FEATURES_append = " bluez5 bluetooth wifi"
+IMAGE_INSTALL_append = " linux-firmware-bcm43430 bluez5 i2c-tools python-smbus bridge-utils hostapd dhcp-server iptables wpa-supplicant"
+
+# After installing image: Start the wlan service
+wpa_supplicant -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+
+# Ctrl+ Z to set up in background -> Start playing
+
+# If no assigned ip to wlan0
+ifconfig wlan0 192.168.X.XXX
+
+# Add deafult gateway
+route add default gw 192.168.1.1
+
+###########################################################################
+# To enable wifi on sys init [while booting]
+vim poky/meta/recipes-core/initscripts/initscripts-1.0/start-wifi.sh
+## Add
+
+#!/bin/sh
+ifconfig wlan0 192.168.1.150
+route add default gw 192.168.1.1
+
+wpa_supplicant -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+: exit 0
+
+# Add the script to vim poky/meta/recipes-core/initscripts/initscripts_1.0.bb
+SRC_URI = "
+file://start-wifi.sh \
+"
+do_install () {
+install -m 0755    ${WORKDIR}/start-wifi.sh     ${D}${sysconfdir}/init.d
+
+update-rc.d -r ${D} start-wifi.sh start 99 2 3 4 5 .
+}
+
+MASKED_SCRIPTS = " \
+start-wifi \
+"
+
+
+### TO connect to LTE [Mobile Netowrk Wi-Fi]
+ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=0
+update_config=1
+
+network={
+        ssid="MYSSID"
+        psk="MY-SECURE-PASSKEY"
+        proto=WPA2
+        key_mgmt=WPA-PSK
+        pairwise=CCMP 
+        auth_alg=OPEN
+}
+
+ifconfig wlan0 up
+systemctl restart wpa_supplicant
+wpa_supplicant -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+dhclient wlan0
+exit 0
+
+#####################################
+# Create rc-local.service in /etc/systemd/system/
+[Unit]
+Description=/etc/rc.local Compatibility
+ConditionPathExists=/etc/rc.local
+
+[Service]
+Type=forking
+ExecStart=/etc/rc.local start
+TimeoutSec=0
+StandardOutput=tty
+RemainAfterExit=yes
+SysVStartPriority=99
+
+[Install]
+WantedBy=multi-user.target
+
+# Create rc.local in /etc/ and chmod+x it
+#!/bin/bash -e
+
+/home/root/CFG/start_wifi_lan.sh
+/home/root/CFG/start_wifi_lte.sh
+
+exit 0
+

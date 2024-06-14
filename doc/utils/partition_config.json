@@ -1,0 +1,19 @@
+{
+  "device": "sda",
+  "partitions": [
+    {
+      "partition": "p1",
+      "size": "100M",
+      "label": "System",
+      "fs": "vfat",
+      "bs": "4096"
+    },
+    {
+      "partition": "p2",
+      "size": "14G",
+      "label": "Data",
+      "fs": "ext4",
+      "bs": "4096"
+    }
+  ]
+}
