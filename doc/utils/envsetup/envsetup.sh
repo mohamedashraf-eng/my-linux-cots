@@ -63,7 +63,8 @@ YOCTOPOKYDIR=$YOCTODIR/poky
 YOCTOPOKYDIR_GITHUBREPO="https://git.yoctoproject.org/git/poky"
 YOCTOPOKYDIR_EXPECTED_HASH="your_expected_hash6"
 YOCTOPOKYDUNFELLDIR=$YOCTOPOKYDIR/dunfell
-QEMUARMDOCKERDIR=$ROOTDIR/qemu-arm-docker
+QEMUDIR=$ROOTDIR/qemu
+QEMUARMDOCKERDIR=$QEMUDIR/qemu-arm-docker
 QEMUARMDOCKER_GITHUBREPO="https://github.com/qemus/qemu-arm.git"
 QEMUARMDOCKER_EXPECTED_HASH="your_expected_hash7"
 COTSDIR=$ROOTDIR/cots
@@ -174,7 +175,7 @@ main() {
   # Setting up folder structure
   log_info "Creating folder structure..."
   check_directory "$ROOTDIR"
-  mkdir -p "$CROSSNGDIR" "$BOOTLOADERSDIR" "$UBOOTDIR" "$GRUBDIR" "$LINUXKERNELDIR" "$BUSYBOXDIR" "$COTSDIR" "$BOOTCOTSDIR" "$IMGCOTSDIR" "$FULLCOTSDIR" "$YOCTODIR" "$YOCTOPOKYDIR" "$QEMUARMDOCKERDIR"
+  mkdir -p "$CROSSNGDIR" "$BOOTLOADERSDIR" "$UBOOTDIR" "$GRUBDIR" "$LINUXKERNELDIR" "$BUSYBOXDIR" "$COTSDIR" "$BOOTCOTSDIR" "$IMGCOTSDIR" "$FULLCOTSDIR" "$YOCTODIR" "$YOCTOPOKYDIR" "$QEMUDIR"
   log_info "Folder structure created."
 
   # Clone repositories
@@ -192,5 +193,5 @@ main() {
 
 # Run the main function
 main
-cd /workspace/doc/utils/envsetup
+cd /workspace/
 log_info "Good luck! => :) Mohamed Ashraf [Wx]"

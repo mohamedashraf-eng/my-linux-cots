@@ -1,3 +1,13 @@
+#!/bin/bash
+################################################################################################
+# @file: qemu_run.sh
+# @autor: Mohamed Ashraf
+# @date: 12 June 2024
+# @version: 1.0.0
+# @brief: This file is used to deliver a qemu run.
+#
+# @attention:
+# 
 # MIT License
 # 
 # Copyrights © 2024, Mohamed Ashraf
@@ -27,12 +37,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # 
-echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-echo "          LFS Environment Setup      [Wx]         "       
-echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+#################################################################################################
 
-source envsetup/envsetup.sh
+# Include constants and utilities
+bash ./constants.sh && source ./constants.sh
+source ./utils.sh
 
-echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-echo "          Setup Done, Good luck!    [Wx]          "               
-echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+qemu-system-arm -M "${QEMU_TARGET_MACHINE}" -m "${QEMU_TARGET_MEMORY}" -kernel "${QEMU_TARGET_KERNEL}" "${QEMU_EXTRA_OPTIONS}"
+check_return $? "QEMU execution"

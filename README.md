@@ -45,7 +45,7 @@ For the `docs/bashs` it contains a collection of useful bash scripts that can be
 | Docker                             | Containerization           | ☑️         |
 | Docker Compose                     | Container orchestration    | ☑️         |
 | Docker-in-docker                   | Docker inside a docker     | ☑️         |
-| GCC                                | Compiler                   | ☑️         |
+| GCC                                | Native Compiler                   | ☑️         |
 | Binutils                           | Binary utilities           | ☑️         |
 | Make                               | Build automation           | ☑️         |
 | CMake                              | Build system               | ☑️         |
@@ -70,6 +70,5 @@ source ./install.sh
 
 By following these steps, you can quickly and efficiently set up a robust development environment tailored for embedded Linux projects. This environment is designed to streamline your workflow, reduce setup complexities, and provide a consistent platform for all your development needs.
 
-## Contributing
-
 ## License
+MIT License Copyright (c) 2024, MoWx
