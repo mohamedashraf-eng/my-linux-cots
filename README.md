@@ -40,7 +40,24 @@ For the `docs/bashs` it contains a collection of useful bash scripts that can be
 - **Validated Environment:** Ensures that all repositories and dependencies are correctly cloned and installed, providing a reliable development setup.
 
 ### Environment
-
+| Component                          | Usage                      | Completed |
+|------------------------------------|----------------------------|-----------|
+| Docker                             | Containerization           | ☑️         |
+| Docker Compose                     | Container orchestration    | ☑️         |
+| Docker-in-docker                   | Docker inside a docker     | ☑️         |
+| GCC                                | Compiler                   | ☑️         |
+| Binutils                           | Binary utilities           | ☑️         |
+| Make                               | Build automation           | ☑️         |
+| CMake                              | Build system               | ☑️         |
+| Git                                | Version control            | ☑️         |
+| QEMU                               | Emulator                   | ☑️         |
+| Crossng                            | Toolchain builder                 | ☑️         |
+| Busybox                            | Unix utilities             | ☑️         |
+| U-Boot                             | Bootloader                 | ☑️         |
+| GRUB                             | Bootloader                 | ☑️         |
+| Linux Kernel                       | Operating system kernel    | ☑️         |
+| Yocto Project                      | Build system               | ☑️         |
+| Cross-compilation tools (arm-linux-gnueabihf) | Cross-compiling       | ☑️         |
 
 ## Usage
 
