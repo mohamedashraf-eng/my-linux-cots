@@ -17,7 +17,8 @@ Welcome to the Embedded Linux Docker Environment project! This project is design
 
 1. Clone the Repo
 ```bash
-git clone https://github.com/your-repo/embedded-linux-docker-environment.git &&
+git clone https://github.com/mohamedashraf-eng/my-linux-cots.git && 
+git checkout advanced_embedded_linux_cots &&
 cd embedded-linux-docker-environment
 ```
 
