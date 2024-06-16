@@ -1,0 +1,23 @@
+@startuml circular_buffer
+
+' Keep it classic
+skinparam  Style strictuml 
+class circular_buffer {
+- m_head:uint32_t
+- m_tail:uint32_t
+- m_tsize:uint32_t
+- m_csize:uint32_t
+- m_container:array
+----
++ push_back(T value):void
++ pop(): void
+' + head(): T const& 
++ head(): T& 
+' + tail(): T const&
++ tail(): T&
++ tsize():uint32_t
++ csize():uint32_t
++ empty():bool
+}
+
+@enduml

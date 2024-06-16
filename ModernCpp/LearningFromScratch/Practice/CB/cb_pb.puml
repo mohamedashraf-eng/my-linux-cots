@@ -1,0 +1,52 @@
+@startuml cb_pb
+
+start
+:update_tail;
+note right
+any checks
+----
+- [x] what if (tail > tsize)
+- [] what if (tail == head)
+end note
+
+if (tail >= tsize) then
+    :m_tail = 0;
+endif
+
+if ((tail == head) && (csize > 0)) then
+    :update_head;
+    note right
+    any checks
+    ----
+    - What happens if (head >= tsize)
+    end note
+    if (head >= tsize) then
+        :m_head = 0;
+    endif
+endif
+
+:update_container;
+note right
+any checks
+----
+- What happens if the idx is not correct
+end note
+
+if (head >= tsize) then
+    :m_head = 0;
+endif
+
+:update_tail;
+:update_csize;
+note right
+any checks
+----
+- What happens if (csize > tsize)
+end note
+
+if (csize > tsize) then
+    :csize = tsize;
+endif
+
+end
+@enduml
