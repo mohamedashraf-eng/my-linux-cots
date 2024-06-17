@@ -212,6 +212,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Enable code coverage
 CODE_COVERAGE:BOOL=ON
 
+//Enable code coverage
+COMPILE:BOOL=OFF
+
 //Path to a program.
 GCOVR:FILEPATH=/usr/local/bin/gcovr
 

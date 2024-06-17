@@ -67,5 +67,7 @@ public:
     const uint32_t csize() const noexcept { return m_csize; };
     bool empty() const noexcept { return m_csize == 0; };
 
+    //! Iterator methods
+
     ~circular_buffer() = default;
 };

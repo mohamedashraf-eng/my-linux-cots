@@ -4,14 +4,6 @@ project(circular_buffer_test)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Option to enable code coverage
-option(CODE_COVERAGE "Enable code coverage" OFF)
-
-if(CODE_COVERAGE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage -fprofile-arcs")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
-endif()
-
 # Add source files
 set(TEST_FILES circular_buffer_test.cpp)
 set(SRC_FILES )
@@ -32,8 +24,12 @@ target_include_directories(${PROJECT_NAME}
 
 gtest_discover_tests(${PROJECT_NAME})
 
+# Option to enable code coverage
+option(CODE_COVERAGE "Enable code coverage" OFF)
 # Code coverage target
 if(CODE_COVERAGE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage -fprofile-arcs")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
     find_program(GCOVR gcovr)
     if (NOT GCOVR)
         message(FATAL_ERROR "gcovr not found! Please install it to enable code coverage.")
