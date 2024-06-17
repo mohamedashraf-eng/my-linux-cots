@@ -1,0 +1,27 @@
+@startuml ObserverPattern
+
+class Sensor {
+    - observers: vector<Observer*>
+    - sensorValue: uint8_t
+    + attach(Observer*): void
+    + detach(Observer*): void
+    + notify(): void
+    + setSensorValue(uint8_t): void
+    + getSensorValue() const: uint8_t
+}
+
+class Observer {
+    + {abstract} update(): void
+}
+
+class Display {
+    - sensor: Sensor
+    + Display(Sensor&): void
+    + ~Display(): void
+    + update(): void
+}
+
+Observer <|-- Display : Inherits
+Sensor o--> Observer: Observes
+
+@enduml
