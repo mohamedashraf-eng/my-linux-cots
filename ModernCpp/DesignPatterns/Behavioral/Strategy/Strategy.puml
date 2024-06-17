@@ -1,4 +1,33 @@
 @startuml StrategyPattern
+skinparam packageStyle rectangle
 
+package "Strategy Design Pattern" {
+    interface PowerSavingStrategy {
+        +savePower()
+    }
 
+    class NormalPowerSaving {
+        +savePower()
+    }
+
+    class AggressivePowerSaving {
+        +savePower()
+    }
+
+    class PowerManager {
+        -PowerSavingStrategy* strategy_
+        +setStrategy(PowerSavingStrategy* strategy)
+        +applyStrategy()
+    }
+
+    PowerSavingStrategy <|.. NormalPowerSaving
+    PowerSavingStrategy <|.. AggressivePowerSaving
+
+    PowerManager --> PowerSavingStrategy : uses
+
+    PowerSavingStrategy : Strategy
+    NormalPowerSaving : ConcreteStrategy
+    AggressivePowerSaving : ConcreteStrategy
+    PowerManager : Context
+}
 @enduml
