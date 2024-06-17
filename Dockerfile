@@ -91,6 +91,10 @@ RUN wget -O gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz "https://
     tar xf gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz -C /opt/compilers/arm-linux-gnueabihf --strip-components=1 && \
     rm gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabihf.tar.xz
 
+# 
+RUN apt-get update && apt-get upgrade
+RUN apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf gcc-aarch64-linux-gnu g++-aarch64-linux-gnu 
+
 # Install gcovr tool
 RUN pip3 install gcovr==7.2
 
