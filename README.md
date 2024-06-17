@@ -71,5 +71,13 @@ source ./install.sh
 
 By following these steps, you can quickly and efficiently set up a robust development environment tailored for embedded Linux projects. This environment is designed to streamline your workflow, reduce setup complexities, and provide a consistent platform for all your development needs.
 
+## Modern Cpp for Linux
+
+At folder ModernCpp you will find a good introduction to modern C++ `@ReturnToBasics/`.
+Also you will find a practical guide with a project `@Practice/`.
+> Note that the project is a circular buffer from scratch.  
+
+Also you will find a practical examples for design patterns written in C++ `@DesignPatterns/`, that includes and embedded example with the required uml and documentation.
+
 ## License
 MIT License Copyright (c) 2024, MoWx
