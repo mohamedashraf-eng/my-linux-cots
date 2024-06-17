@@ -1,0 +1,42 @@
+@startuml FactoryPattern
+
+class __IDev {
+    + {abstract} GetState() : void
+}
+
+class __ODev {
+    + {abstract} TurnOn() : void
+    + {abstract} TurnOff() : void
+}
+
+class Led {
+    + TurnOn() : void
+    + TurnOff() : void
+}
+
+class Buzzer {
+    + TurnOn() : void
+    + TurnOff() : void
+}
+
+class Button {
+    + GetState() : void
+}
+
+class IOFactory {
+    - m_allocated_odevs : vector<__ODev*>
+    - m_allocated_idevs : vector<__IDev*>
+    + GetIDevHandle(dev : IODevices) : __IDev*
+    + GetODevHandle(dev : IODevices) : __ODev*
+    + IODevices : enum { ODevLed, ODevSpeaker, ODevBuzzer, IDevButton, IODevNone }
+    + {virtual} ~IOFactory() : void
+}
+
+__ODev <|-- Led
+__ODev <|-- Buzzer
+__IDev <|-- Button
+
+IOFactory --> __IDev : creates
+IOFactory --> __ODev : creates
+
+@enduml

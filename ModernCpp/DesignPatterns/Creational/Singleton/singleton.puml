@@ -1,0 +1,62 @@
+@startuml SingletonPattern
+
+class ParkingSystemSingleton {
+    - m_slots[]
+    - m_slot_count
+    - m_capacity
+    --
+    + static getInstance() : ParkingSystemSingleton&
+    + initialize(open_capacity : uint8_t) : void
+    + addCar(carId : int) : bool
+    + leave(carId : int) : bool
+    + show_cars() : void
+    --
+    {static} -instance : ParkingSystemSingleton
+}
+
+@enduml
+
+' Description:
+' Singleton Pattern:
+' The Singleton pattern is a design pattern that restricts the instantiation of a class to one single instance. This is useful when exactly one object is needed to coordinate actions across the system. The pattern involves a single class which is responsible for creating an object while making sure that only one object gets created. This class provides a way to access its only object which can be accessed directly without the need to instantiate the object of the class.
+
+' ParkingSystemSingleton Class:
+' Attributes:
+
+' m_slots[]: An array to store the car IDs in the parking slots.
+' m_slot_count: A counter to keep track of the number of occupied slots.
+' m_capacity: The maximum capacity of the parking system.
+' Methods:
+
+' getInstance():
+' Returns a reference to the single instance of the ParkingSystemSingleton class.
+' This method ensures that only one instance of the class is created and provides a global access point to that instance.
+' initialize(uint8_t open_capacity):
+' Initializes the parking system with a specific capacity.
+' Resets the slot count and initializes all slots to 0.
+' addCar(int carId):
+' Adds a car to the parking system if there is available capacity.
+' Updates the slots array and increments the slot count.
+' Returns true if the car was added successfully, otherwise returns false.
+' leave(int carId):
+' Removes a car from the parking system if the car ID is found.
+' Updates the slots array and decrements the slot count.
+' Returns true if the car was removed successfully, otherwise returns false.
+' show_cars():
+' Displays the current state of the parking slots and car IDs.
+' Iterates through the slots array and prints the car IDs that are currently parked.
+' Static Attribute:
+
+' instance: A static attribute that holds the single instance of the ParkingSystemSingleton class.
+' Functionality:
+' Ensuring Single Instance: The getInstance method is responsible for ensuring that only one instance of the ParkingSystemSingleton class is created. This method is static and creates the instance if it does not exist, or returns the existing instance.
+
+' Initialization: The initialize method is used to set up the parking system with a specified capacity, resetting the slot count and initializing all slots to 0.
+
+' Adding Cars: The addCar method checks if there is available capacity in the parking system, then adds a car by updating the slots array and incrementing the slot count.
+
+' Removing Cars: The leave method searches for a car ID in the slots array, removes it if found, and decrements the slot count.
+
+' Displaying Cars: The show_cars method iterates through the slots array and prints the car IDs that are currently parked.
+
+' By using the Singleton pattern, the ParkingSystemSingleton class ensures that there is only one instance of the parking system, preventing data conflicts and ensuring consistent management of the parking slots.

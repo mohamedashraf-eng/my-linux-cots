@@ -1,0 +1,47 @@
+@startuml BuilderPattern
+
+class Uart {
+    - std::array<uint8_t, buffer_size> m_buffer
+    - uint32_t m_baudrate
+    - uint8_t m_parity
+    - uint8_t m_stop_bits
+    --
+    + Uart()
+    + void set_baudrate(uint32_t baudrate)
+    + void set_parity(uint8_t parity)
+    + void set_stop_bits(uint8_t stop_bits)
+    + void refresh_buffer()
+    + void show_config()
+    + ~Uart()
+}
+
+interface IUartBuilder {
+    + IUartBuilder<buffer_size>& build_baudrate()
+    + IUartBuilder<buffer_size>& build_parity()
+    + IUartBuilder<buffer_size>& build_stop_bits()
+    + Uart<buffer_size> get_uart()
+    + ~IUartBuilder()
+}
+
+class UartBuilder {
+    - Uart<buffer_size> m_uart
+    --
+    + UartBuilder()
+    + IUartBuilder<buffer_size>& build_baudrate()
+    + IUartBuilder<buffer_size>& build_parity()
+    + IUartBuilder<buffer_size>& build_stop_bits()
+    + Uart<buffer_size> get_uart()
+}
+
+class UartDirector {
+    - IUartBuilder<buffer_size>* m_builder
+    --
+    + void set_builder(IUartBuilder<buffer_size>* builder)
+    + void construct_uart()
+}
+
+IUartBuilder <|-- UartBuilder
+UartDirector *-- IUartBuilder
+UartDirector --> Uart : constructs
+
+@enduml
