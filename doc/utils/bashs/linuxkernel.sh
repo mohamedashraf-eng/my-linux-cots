@@ -105,3 +105,11 @@ if [ "$make_install_modules" -eq 1 ]; then
 else
     log_info "Skipping kernel modules installation."
 fi
+
+log_info "Copying kernel depenencies"
+
+copy_item "${LINUX_KERNEL_DIR}"/lib "${LFS_OUTPUT_DIR}"/rootfs/lib
+
+copy_item "${LFS_OUTPUT_DIR}"/kernel/lib/modules/*/arch/${ARCHITECTURE}/boot/zImage"${LFS_OUTPUT_DIR}"/
+
+copy_item "${LFS_OUTPUT_DIR}"/kernel/lib/modules/*/arch/${ARCHITECTURE}/boot/dts/"${LINUX_TARGET_SOC_OEM}"/"${LINUX_TARGET_DTB} "${LFS_OUTPUT_DIR}"/

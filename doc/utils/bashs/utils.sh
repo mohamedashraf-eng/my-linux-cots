@@ -100,3 +100,22 @@ compare_hash() {
         
     fi
 }
+
+# Function to copy files or directories with error handling
+copy_item() {
+    local src=$1
+    local dest=$2
+
+    if [ -e "$src" ]; then
+        cp -rf "$src" "$dest"
+        if [ $? -ne 0 ]; then
+            log_error "Failed to copy $src to $dest"
+            exit 1
+        else
+            log_info "Copied $src to $dest"
+        fi
+    else
+        log_error "Source $src does not exist"
+        exit 1
+    fi
+}

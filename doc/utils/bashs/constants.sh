@@ -39,61 +39,127 @@
 # 
 #################################################################################################
 
-# Define constants
-# Common
+########################################################
+# Common Constants
+########################################################
+
+# Base directory for all operations
 readonly BASE_DIR="/workspace"
+
+# Number of processor cores available
 readonly NUMBER_OF_PROCESSOR_CORES=$(nproc)
+
+# Output directory for all build artifacts
 readonly LFS_OUTPUT_DIR="${BASE_DIR}/output"
 
-# Common files @output
-# CrossNG
-# U-Boot
-readonly UBOOT_BIN="${LFS_OUTPUT_DIR}/u-boot.bin"
-readonly UBOOT_BIN_SIZE=$(stat -c%s "${UBOOT_BIN}" 2>/dev/null || echo "0")
-readonly UBOOT_OUT="${LFS_OUTPUT_DIR}/u-boot"
-
-# Kernel
-# BusyBox
-
 ########################################################
-# Environment Dependent Setup
+# Cross Compiler Configuration
 ########################################################
 
+# Path to the cross-compiler binaries
 readonly BUILD_CROSS_COMPILER_PATH="/opt/compilers/arm-linux-gnueabihf/bin"
-readonly BUILD_CROSS_COMPILER_PREFIX="arm-linux-gnueabihf-"
 
-readonly ARCHITECTURE="arm"
+# Prefix for the cross-compiler tools
+readonly BUILD_CROSS_COMPILER_PREFIX="aarch64-linux-gnu-"
 
-# CrossNG
+# Target architecture
+readonly ARCHITECTURE="aarch64"
+
+########################################################
+# CrossNG Configuration
+########################################################
+
+# Directory for CrossNG toolchain
 readonly CROSSNG_DIR="${BASE_DIR}/crossng"
+
+# Target triple for CrossNG
 readonly CROSSNG_TARGET="arm-unknown-linux-gnueabi"
 
-# U-Boot
+########################################################
+# U-Boot Configuration
+########################################################
+
+# Directory for U-Boot source
 readonly UBOOT_DIR="${BASE_DIR}/bootloaders/uboot"
+
+# U-Boot target configuration
 readonly UBOOT_TARGET="vexpress_ca9x4_defconfig"
 
-# Linux Kernel
-readonly LINUX_KERNEL_DIR="${BASE_DIR}/kernel/linux"
+# U-Boot binary output file
+readonly UBOOT_BIN="${LFS_OUTPUT_DIR}/u-boot.bin"
+
+# Size of the U-Boot binary
+readonly UBOOT_BIN_SIZE=$(stat -c%s "${UBOOT_BIN}" 2>/dev/null || echo "0")
+
+# U-Boot output directory
+readonly UBOOT_OUT="${LFS_OUTPUT_DIR}/u-boot"
+
+########################################################
+# Linux Kernel Configuration
+########################################################
+
+# Directory for Linux kernel source
+readonly LINUX_KERNEL_DIR="${BASE_DIR}/kernel/linux/rpi"
+
+# Default configuration for the Linux kernel
 readonly LINUX_KERNEL_TARGET_DEFCONFIG="bcm2835_defconfig"
+
+readonly LINUX_TARGET_SOC_OEM="broadcom"
+
+readonly LINUX_TARGET_DTB="bcm2835-rpi-b.dtb"
+
+# Directory for installing Linux kernel modules
 readonly LINUX_INSTALL_MOD_PATH="${BASE_DIR}/output/kernel"
 
-# BusyBox
+########################################################
+# BusyBox Configuration
+########################################################
+
+# Directory for BusyBox source
 readonly BUSYBOX_DIR="${BASE_DIR}/busybox"
+
+# Output directory for BusyBox installation
 readonly BUSYBOX_OUTPUT_DIR="${BUSYBOX_DIR}/_install"
 
-# QEMU
+########################################################
+# QEMU Configuration
+########################################################
+
+# Directory for QEMU source
 readonly QEMU_DIR="${BASE_DIR}/qemu"
+
+# Docker image for QEMU ARM
 readonly QEMU_ARM_DOCKER="${QEMU_DIR}/qemu-arm-docker"
 
-readonly QEMU_TARGET_MACHINE_ARCH="arm"
-readonly QEMU_TARGET_MACHINE_CPU="cortex-a9"
-readonly QEMU_TARGET_MEMORY="1024M"
+# Target machine architecture for QEMU
+readonly QEMU_TARGET_MACHINE_ARCH="aarch64"
+
+# Target machine CPU for QEMU
+readonly QEMU_TARGET_MACHINE_CPU="armv7"
+
+# System on Chip for QEMU target machine
+readonly QEMU_TARGET_MACHINE_SOC="bcm2835"
+
+# Memory size for QEMU target machine
+readonly QEMU_TARGET_MEMORY="1G"
+
+# Kernel for QEMU target machine
 readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot"
+
+# Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""
-readonly QEMU_TARGET_MACHINE="vexpress-a9"
+
+# Machine type for QEMU
+readonly QEMU_TARGET_MACHINE="raspi3b"
+
+# Extra options for QEMU
 readonly QEMU_EXTRA_OPTIONS="-nographic"
 
-# Source utilities
+########################################################
+# Utility Functions
+########################################################
+
+# Source additional utilities
 source ./utils.sh
 
 # Function to display constants
@@ -117,6 +183,17 @@ display_constants() {
 
     log_info "BusyBox Directory: ${BUSYBOX_DIR}"
     log_info "BusyBox Output Directory: ${BUSYBOX_OUTPUT_DIR}"
+
+    log_info "QEMU Directory: ${QEMU_DIR}"
+    log_info "QEMU ARM Docker Image: ${QEMU_ARM_DOCKER}"
+    log_info "QEMU Target Machine Architecture: ${QEMU_TARGET_MACHINE_ARCH}"
+    log_info "QEMU Target Machine CPU: ${QEMU_TARGET_MACHINE_CPU}"
+    log_info "QEMU Target Machine SoC: ${QEMU_TARGET_MACHINE_SOC}"
+    log_info "QEMU Target Memory: ${QEMU_TARGET_MEMORY}"
+    log_info "QEMU Target Kernel: ${QEMU_TARGET_KERNEL}"
+    log_info "QEMU Target Image: ${QEMU_TARGET_IMAGE}"
+    log_info "QEMU Target Machine: ${QEMU_TARGET_MACHINE}"
+    log_info "QEMU Extra Options: ${QEMU_EXTRA_OPTIONS}"
 
     log_info "Number of Processor Cores: ${NUMBER_OF_PROCESSOR_CORES}"
     log_info "LFS Output Directory: ${LFS_OUTPUT_DIR}"

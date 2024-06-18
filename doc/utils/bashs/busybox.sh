@@ -60,7 +60,8 @@
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
-source ./utils.sh
+bash ./utils.sh && source ./utils.sh
+
 
 # Verify that essential directories exist
 check_directory "${BUSYBOX_DIR}"
@@ -73,7 +74,7 @@ make_install=$3
 # First, configure BusyBox if requested
 if [ "$make_configuration" -eq 1 ]; then
     log_info "Start configuring BusyBox"
-    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" menuconfig
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" menuconfig
     check_return $? "Configuring BusyBox"
     log_info "Done configuring BusyBox"
 else
@@ -83,7 +84,7 @@ fi
 # Second, build BusyBox if requested
 if [ "$make_build" -eq 1 ]; then
     log_info "Start building BusyBox"
-    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" -j"${NUMBER_OF_PROCESSOR_CORES}"
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" -j"${NUMBER_OF_PROCESSOR_CORES}"
     check_return $? "Building BusyBox"
     log_info "Done building BusyBox"
 else
@@ -93,7 +94,7 @@ fi
 # Third, install BusyBox if requested
 if [ "$make_install" -eq 1 ]; then
     log_info "Start installing BusyBox"
-    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" -j"${NUMBER_OF_PROCESSOR_CORES}" install
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" -j"${NUMBER_OF_PROCESSOR_CORES}" install
     check_return $? "Installing BusyBox"
     log_info "Done installing BusyBox"
 else
@@ -142,8 +143,8 @@ log_info "Done writing content into rcS"
 
 log_info "Root filesystem setup completed"
 #
-log_info "Redirecting output to ${LFS_OUTPUT_DIR}"
-cp "${BUSYBOX_OUTPUT_DIR} "${LFS_OUTPUT_DIR}"/rootfs
+copy_target "${BUSYBOX_OUTPUT_DIR}" "${LFS_OUTPUT_DIR}"/rootfs
 
-log_info "Busybox script completed"
+
+log_info "BusyBox setup completed"
 
