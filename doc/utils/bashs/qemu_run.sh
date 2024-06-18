@@ -45,19 +45,20 @@ bash ./utils.sh && source ./utils.sh
 
 # Define the QEMU command base
 qemu_cmd="qemu-system-${QEMU_TARGET_MACHINE_ARCH} \
-    -M \"${QEMU_TARGET_MACHINE}\" \
-    -m \"${QEMU_TARGET_MEMORY}\" \
-    -kernel \"${QEMU_TARGET_KERNEL}\""
+    -M ${QEMU_TARGET_MACHINE} \
+    -m ${QEMU_TARGET_MEMORY} \
+    -kernel ${QEMU_TARGET_KERNEL}"
 
 # Check if QEMU_TARGET_DTB is not empty and add it to the command
 if [ -n "${QEMU_TARGET_DTB}" ]; then
-    qemu_cmd="${qemu_cmd} -dtb \"${QEMU_TARGET_DTB}\""
+    qemu_cmd="${qemu_cmd} -dtb ${QEMU_TARGET_DTB}"
 fi
 
 # Add extra options
 qemu_cmd="${qemu_cmd} ${QEMU_EXTRA_OPTIONS}"
 
 # Execute the QEMU command
+echo ${qemu_cmd}
 eval ${qemu_cmd}
 
 # Check return value of QEMU execution

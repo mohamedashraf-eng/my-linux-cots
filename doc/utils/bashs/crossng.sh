@@ -79,13 +79,13 @@ if [ "$make_init" -eq 1 ]; then
     #
     make -C"${CROSSNG_DIR}" distclean
     log_info "Base configuration" 
-    # ./configure --enable-local
+    ./configure --enable-local
     check_return $? "confgiuring base"
     log_info "Setup ct-ng configuration"
     make -C"${CROSSNG_DIR}" -j"${NUMBER_OF_PROCESSOR_CORES}"
     #
     log_info "Selecting the target" 
-    "${CROSSNG_DIR}"/ct-ng list-samples
+    # "${CROSSNG_DIR}"/ct-ng list-samples
     "${CROSSNG_DIR}"/ct-ng "${CROSSNG_TARGET}"
     log_info "Done initalizing crossng"
 else
@@ -102,12 +102,23 @@ else
     log_info "Skipping Crossng configuration"
 fi
 
-# Second, Build the crossng toolchain
+# Second, Build the crosstool-NG toolchain
 if [ "$make_build" -eq 1 ]; then
-    log_info "Start building Crossng"
-    "${CROSSNG_DIR}"/ct-ng build
-    check_return $? "building Crossng"
-    log_info "Done building Crossng"
+    log_info "Start building Crosstool-NG"
+    
+    # Add user 'crosstoolng' if it doesn't exist
+    if ! id -u crosstoolng > /dev/null 2>&1; then
+        adduser --disabled-password --gecos "" crosstoolng
+    fi
+
+    # Change ownership of the crossng directory
+    chown -R crosstoolng:crosstoolng "${CROSSNG_DIR}"
+
+    # Run the crosstool-NG build as the crosstoolng user
+    su -c "cd ${CROSSNG_DIR} && ./ct-ng build" -s /bin/bash crosstoolng
+    check_return $? "building Crosstool-NG"
+    
+    log_info "Done building Crosstool-NG"
 else
-    log_info "Skipping Crossng build" 
+    log_info "Skipping Crosstool-NG build"
 fi

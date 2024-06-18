@@ -50,7 +50,7 @@ readonly BASE_DIR="/workspace"
 readonly NUMBER_OF_PROCESSOR_CORES=$(nproc)
 
 # Output directory for all build artifacts
-readonly _LFS_OUTPUT_EXT_DIR=""
+readonly _LFS_OUTPUT_EXT_DIR="vexpress_v2p_ca9"
 readonly LFS_OUTPUT_DIR="${BASE_DIR}/output/${_LFS_OUTPUT_EXT_DIR}"
 
 ########################################################
@@ -75,7 +75,7 @@ readonly ARCHITECTURE="arm"
 readonly CROSSNG_DIR="${BASE_DIR}/crossng"
 
 # Target triple for CrossNG
-readonly CROSSNG_TARGET="arm-unknown-linux-gnueabi"
+readonly CROSSNG_TARGET="arm-cortexa9_neon-linux-gnueabihf"
 
 ########################################################
 # U-Boot Configuration
@@ -101,14 +101,14 @@ readonly UBOOT_OUT="${LFS_OUTPUT_DIR}/u-boot"
 ########################################################
 
 # Directory for Linux kernel source
-readonly LINUX_KERNEL_DIR="${BASE_DIR}/kernel/linux/rpi"
+readonly LINUX_KERNEL_DIR="${BASE_DIR}/kernel/linux/base"
 
 # Default configuration for the Linux kernel
-readonly LINUX_KERNEL_TARGET_DEFCONFIG="bcm2835_defconfig"
+readonly LINUX_KERNEL_TARGET_DEFCONFIG="vexpress_defconfig"
 
-readonly LINUX_TARGET_SOC_OEM="broadcom"
+readonly LINUX_TARGET_SOC_OEM="arm"
 
-readonly LINUX_TARGET_DTB_NAME="bcm2835-rpi-b.dtb"
+readonly LINUX_TARGET_DTB_NAME="vexpress-v2p-ca9.dtb"
 
 # Directory for installing Linux kernel modules
 readonly LINUX_INSTALL_MOD_PATH="${BASE_DIR}/output/kernel"
@@ -137,32 +137,36 @@ readonly QEMU_ARM_DOCKER="${QEMU_DIR}/qemu-arm-docker"
 readonly QEMU_TARGET_MACHINE_ARCH="arm"
 
 # Target machine CPU for QEMU
-readonly QEMU_TARGET_MACHINE_CPU="armv7"
+readonly QEMU_TARGET_MACHINE_CPU="armv8"
 
 # System on Chip for QEMU target machine
-readonly QEMU_TARGET_MACHINE_SOC="bcm2835"
+readonly QEMU_TARGET_MACHINE_SOC="arm"
 
 # Memory size for QEMU target machine
-readonly QEMU_TARGET_MEMORY="128"
+readonly QEMU_TARGET_MEMORY="128M"
 
 # Kernel for QEMU target machine
-readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot"
+readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/boot/zImage"
 
 # DTB for QEMU target machine
-readonly QEMU_TARGET_DTB=""
+readonly QEMU_TARGET_DTB="${LFS_OUTPUT_DIR}/boot/vexpress-v2p-ca9.dtb"
 
 # Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""
+
+# Rootfs to be loaded by the kernel
+readonly QEMU_TARGET_ROOTFS=""
 
 # Machine type for QEMU
 readonly QEMU_TARGET_MACHINE="vexpress-a9"
 
 readonly QEMU_EXTRA_OPTIONS="
 -nographic \
--append \"console=ttyAMA0\" \
--d guest_errors \
--sd ${LFS_OUTPUT_DIR}/sdcard/file.img
+-append \"console=ttyAMA0,115200 rdinit=/bin/sh\" \
+-initrd ${LFS_OUTPUT_DIR}/initramdisk.cpio.gz
 "
+# -sd ${LFS_OUTPUT_DIR}/sdcard/file.img
+
 ########################################################
 # Disk Configuration
 ########################################################

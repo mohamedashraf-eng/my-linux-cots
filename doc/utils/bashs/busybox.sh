@@ -78,7 +78,8 @@ if [ "$make_configuration" -eq 1 ]; then
     check_return $? "Configuring BusyBox"
     log_info "Done configuring BusyBox"
 else
-    log_info "Skipping BusyBox configuration"
+    log_info "Skipping BusyBox configuration | Building defconfig"
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${BUILD_CROSS_COMPILER_PREFIX}" -C "${BUSYBOX_DIR}" defconfig
 fi
 
 # Second, build BusyBox if requested
@@ -147,6 +148,12 @@ mkdir -p "${LFS_OUTPUT_DIR}/rootfs"
 
 #
 copy_item "${BUSYBOX_OUTPUT_DIR}"/. "${LFS_OUTPUT_DIR}"/rootfs
+
+#
+log_info "Archiving using cpio"
+find ${BUSYBOX_OUTPUT_DIR}/. | cpio -H newc -ov --owner root:root > ${LFS_OUTPUT_DIR}/initramdisk.cpio
+gzip ${LFS_OUTPUT_DIR}/initramdisk.cpio
+log_info "Archiving completed"
 
 log_info "BusyBox setup completed"
 

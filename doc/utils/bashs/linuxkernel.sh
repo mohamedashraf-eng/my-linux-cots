@@ -84,6 +84,7 @@ if [ "$make_configuration" -eq 1 ]; then
     log_info "Done configuring Kernel"
     else
     log_info "Skipping Kernel configuration & adding default configuration ${LINUX_KERNEL_TARGET_DEFCONFIG}"
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${LINUX_KERNEL_DIR}" ${LINUX_KERNEL_TARGET_DEFCONFIG}
 fi
 
 # Third, build kernel modules dtbs if requested
@@ -117,9 +118,9 @@ copy_item "${LINUX_KERNEL_DIR}/lib" "${LFS_OUTPUT_DIR}/rootfs/"
 # TODO: Make a generic way to figure the kernel modules place <6.6.34+>
 
 # Copy zImage to LFS_OUTPUT_DIR
-copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/zImage" "${LFS_OUTPUT_DIR}/"
+copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/zImage" "${LFS_OUTPUT_DIR}/boot"
 
 # Copy DTB file to LFS_OUTPUT_DIR
-copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/dts/${LINUX_TARGET_SOC_OEM}/${LINUX_TARGET_DTB_NAME}" "${LFS_OUTPUT_DIR}/"
+copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/dts/${LINUX_TARGET_SOC_OEM}/${LINUX_TARGET_DTB_NAME}" "${LFS_OUTPUT_DIR}/boot"
 
 log_info "All dependencies copied successfully"
