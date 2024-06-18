@@ -38,6 +38,11 @@
 # SOFTWARE.
 # 
 #################################################################################################
+
+#
+#! NOTE: This file is tested on linux-docker image only.
+#
+
 ###
 # Summary
 # This script performs the following steps to create and partition an SD card image:
