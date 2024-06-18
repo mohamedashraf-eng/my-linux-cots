@@ -71,13 +71,26 @@ source ./install.sh
 
 By following these steps, you can quickly and efficiently set up a robust development environment tailored for embedded Linux projects. This environment is designed to streamline your workflow, reduce setup complexities, and provide a consistent platform for all your development needs.
 
-## Modern Cpp for Linux
+## Generator Utility
+The generator utility is a simple bash scripts that generates a new project based on a configuration constants in `doc/bashs/constants.sh`.
 
+**Usage**:  
+
+Configure the parameters of the project in `bashs/constants.sh` and run the script you configured:
+
+For example:
+1. Configured environment parameters (architecture, toolchain, output dir, ...)
+2. Configured u-boot parameters
+3. Generate the u-boot based on the paramters by running:
+```bash
+bash ./uboot.sh
+```
+4. Wait for the script to finish and you will see the output in `LFS_OUTPUT_DIR` path.
+
+
+## Modern Cpp for Linux
 At folder ModernCpp you will find a good introduction to modern C++ `@ReturnToBasics/`.
 Also you will find a practical guide with a project `@Practice/`.
 > Note that the project is a circular buffer from scratch.  
 
 Also you will find a practical examples for design patterns written in C++ `@DesignPatterns/`, that includes and embedded example with the required uml and documentation.
-
-## License
-MIT License Copyright (c) 2024, MoWx
