@@ -54,6 +54,9 @@ RUN apt-get update && \
     zstd \
     liblz4-tool \
     locales \
+    fdisk \
+    dosfstools \
+    parted \
     libacl1 \
     ca-certificates \
     curl \
