@@ -41,7 +41,24 @@
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
-source ./utils.sh
+bash ./utils.sh && source ./utils.sh
 
-qemu-system-${QEMU_TARGET_MACHINE_ARCH} -M "${QEMU_TARGET_MACHINE}" -m "${QEMU_TARGET_MEMORY}" -kernel "${QEMU_TARGET_KERNEL}" "${QEMU_EXTRA_OPTIONS}"
+# Define the QEMU command base
+qemu_cmd="qemu-system-${QEMU_TARGET_MACHINE_ARCH} \
+    -M \"${QEMU_TARGET_MACHINE}\" \
+    -m \"${QEMU_TARGET_MEMORY}\" \
+    -kernel \"${QEMU_TARGET_KERNEL}\""
+
+# Check if QEMU_TARGET_DTB is not empty and add it to the command
+if [ -n "${QEMU_TARGET_DTB}" ]; then
+    qemu_cmd="${qemu_cmd} -dtb \"${QEMU_TARGET_DTB}\""
+fi
+
+# Add extra options
+qemu_cmd="${qemu_cmd} ${QEMU_EXTRA_OPTIONS}"
+
+# Execute the QEMU command
+eval ${qemu_cmd}
+
+# Check return value of QEMU execution
 check_return $? "QEMU execution"

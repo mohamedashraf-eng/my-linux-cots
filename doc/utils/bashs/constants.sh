@@ -50,7 +50,8 @@ readonly BASE_DIR="/workspace"
 readonly NUMBER_OF_PROCESSOR_CORES=$(nproc)
 
 # Output directory for all build artifacts
-readonly LFS_OUTPUT_DIR="${BASE_DIR}/output"
+readonly _LFS_OUTPUT_EXT_DIR=""
+readonly LFS_OUTPUT_DIR="${BASE_DIR}/output/${_LFS_OUTPUT_EXT_DIR}"
 
 ########################################################
 # Cross Compiler Configuration
@@ -61,6 +62,7 @@ readonly BUILD_CROSS_COMPILER_PATH="/opt/compilers/arm-linux-gnueabihf/bin"
 
 # Prefix for the cross-compiler tools
 readonly BUILD_CROSS_COMPILER_PREFIX="arm-linux-gnueabihf-"
+# readonly BUILD_CROSS_COMPILER_PREFIX="aarch64-linux-gnu-"
 
 # Target architecture
 readonly ARCHITECTURE="arm"
@@ -83,7 +85,7 @@ readonly CROSSNG_TARGET="arm-unknown-linux-gnueabi"
 readonly UBOOT_DIR="${BASE_DIR}/bootloaders/uboot"
 
 # U-Boot target configuration
-readonly UBOOT_TARGET="bcm2835_defconfig"
+readonly UBOOT_TARGET="vexpress_ca9x4_defconfig"
 
 # U-Boot binary output file
 readonly UBOOT_BIN="${LFS_OUTPUT_DIR}/u-boot.bin"
@@ -141,10 +143,13 @@ readonly QEMU_TARGET_MACHINE_CPU="armv7"
 readonly QEMU_TARGET_MACHINE_SOC="bcm2835"
 
 # Memory size for QEMU target machine
-readonly QEMU_TARGET_MEMORY="1G"
+readonly QEMU_TARGET_MEMORY="128"
 
 # Kernel for QEMU target machine
-readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot.bin"
+readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot"
+
+# DTB for QEMU target machine
+readonly QEMU_TARGET_DTB=""
 
 # Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""
@@ -152,8 +157,11 @@ readonly QEMU_TARGET_IMAGE=""
 # Machine type for QEMU
 readonly QEMU_TARGET_MACHINE="vexpress-a9"
 
-# Extra options for QEMU
-readonly QEMU_EXTRA_OPTIONS="-nographic"
+readonly QEMU_EXTRA_OPTIONS="
+-nographic \
+-append \"console=ttyAMA0\" \
+-d guest_errors \
+"
 
 ########################################################
 # Utility Functions

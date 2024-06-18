@@ -80,6 +80,8 @@ if [ "$make_configuration" -eq 1 ]; then
     make ARCH=$ARCHITECTURE CROSS_COMPILE=$BUILD_CROSS_COMPILER_PREFIX -C $UBOOT_DIR menuconfig
     check_return $? "add configuring uboot"
     log_info "Done configuring uboot"
+else
+    log_info "Skipping uboot configuration"
 fi
 
 # Second, configure uboot if requested
@@ -109,7 +111,7 @@ fi
 
 log_info "Copying depenencies"
 
-copy_target ${UBOOT_DIR}/u-boot.bin ${LFS_OUTPUT_DIR}
-copy_target ${UBOOT_DIR}/u-boot ${LFS_OUTPUT_DIR}
+copy_item ${UBOOT_DIR}/u-boot.bin ${LFS_OUTPUT_DIR}
+copy_item ${UBOOT_DIR}/u-boot ${LFS_OUTPUT_DIR}
 
 log_info "Done copying depenencies"
