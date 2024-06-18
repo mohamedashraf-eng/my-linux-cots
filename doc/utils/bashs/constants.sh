@@ -132,7 +132,7 @@ readonly QEMU_DIR="${BASE_DIR}/qemu"
 readonly QEMU_ARM_DOCKER="${QEMU_DIR}/qemu-arm-docker"
 
 # Target machine architecture for QEMU
-readonly QEMU_TARGET_MACHINE_ARCH="aarch64"
+readonly QEMU_TARGET_MACHINE_ARCH="arm"
 
 # Target machine CPU for QEMU
 readonly QEMU_TARGET_MACHINE_CPU="armv7"
@@ -144,13 +144,13 @@ readonly QEMU_TARGET_MACHINE_SOC="bcm2835"
 readonly QEMU_TARGET_MEMORY="1G"
 
 # Kernel for QEMU target machine
-readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/zImage"
+readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot.bin"
 
 # Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""
 
 # Machine type for QEMU
-readonly QEMU_TARGET_MACHINE="raspi3b"
+readonly QEMU_TARGET_MACHINE="vexpress-a9"
 
 # Extra options for QEMU
 readonly QEMU_EXTRA_OPTIONS="-nographic"
