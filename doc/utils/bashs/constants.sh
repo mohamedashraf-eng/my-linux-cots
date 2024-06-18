@@ -173,6 +173,10 @@ FAT_SIZE=${FAT_SIZE:-512}      # in MB
 
 EXT4_SIZE=${EXT4_SIZE:-512}    # in MB
 
+FILE_TO_COPY_FAT="/workspace/bootloaders/uboot/u-boot.bin"
+
+FILE_TO_COPY_EXT4=""
+
 ########################################################
 # Utility Functions
 ########################################################

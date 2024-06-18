@@ -38,6 +38,23 @@
 # SOFTWARE.
 # 
 #################################################################################################
+###
+# Summary
+# This script performs the following steps to create and partition an SD card image:
+# 
+# - Sources constants and utilities.
+# - Creates an output directory for the SD card image.
+# - Creates a blank image file of the specified size.
+# - Uses fdisk to create a DOS partition table and two partitions (FAT16 and ext4).
+# - Associates the image file with a loop device.
+# - Refreshes the partition table.
+# - Creates device maps for the partitions using kpartx.
+# - Formats the partitions as FAT16 and ext4.
+# - Mounts the FAT16 partition, optionally copies files, and unmounts it.
+# - Mounts the ext4 partition, optionally copies files, and unmounts it.
+# - Removes the device maps and detaches the loop device.
+# - Logs a completion message.
+####
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
@@ -99,7 +116,7 @@ mount /dev/mapper/${LOOP_NAME}p1 /mnt/fat16
 #############################################################
 ## Copy files to FAT16 partition
 ## Un comment this line to copy a file or directory while processing
-# copy_item /path/to/source/files/* /mnt/fat16/
+copy_item ${FILE_TO_COPY_FAT} /mnt/fat16/ 
 #############################################################
 umount /mnt/fat16
 rmdir /mnt/fat16
@@ -111,7 +128,7 @@ mount /dev/mapper/${LOOP_NAME}p2 /mnt/ext4
 #############################################################
 # Copy files to ext4 partition
 ## Un comment this line to copy a file or directory while processing
-# copy_item /path/to/source/files/* /mnt/ext4/
+# copy_item ${FILE_TO_COPY_EXT4}  /mnt/ext4/ 
 #############################################################
 umount /mnt/ext4
 rmdir /mnt/ext4
