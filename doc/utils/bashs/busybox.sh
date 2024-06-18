@@ -143,8 +143,7 @@ log_info "Done writing content into rcS"
 
 log_info "Root filesystem setup completed"
 #
-copy_target "${BUSYBOX_OUTPUT_DIR}" "${LFS_OUTPUT_DIR}"/rootfs
-
+copy_item "${BUSYBOX_OUTPUT_DIR}" "${LFS_OUTPUT_DIR}"/rootfs
 
 log_info "BusyBox setup completed"
 

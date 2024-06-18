@@ -77,13 +77,13 @@ make_install_modules=$3
 # First, configure Kernel if requested
 if [ "$make_configuration" -eq 1 ]; then
     log_info "Start configuring Kernel"
+    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${LINUX_KERNEL_DIR}" ${LINUX_KERNEL_TARGET_DEFCONFIG}
+    log_info "Done configuring Kernel"
     make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${LINUX_KERNEL_DIR}" menuconfig
     check_return $? "Configuring Kernel"
     log_info "Done configuring Kernel"
-else
+    else
     log_info "Skipping Kernel configuration & adding default configuration ${LINUX_KERNEL_TARGET_DEFCONFIG}"
-    make ARCH="${ARCHITECTURE}" CROSS_COMPILE="${LINUX_BUILD_CROSS_COMPILER_PREFIX}" -C "${LINUX_KERNEL_DIR}" ${LINUX_KERNEL_TARGET_DEFCONFIG}
-    log_info "Done configuring Kernel"
 fi
 
 # Third, build kernel modules dtbs if requested
@@ -108,8 +108,14 @@ fi
 
 log_info "Copying kernel depenencies"
 
-copy_item "${LINUX_KERNEL_DIR}"/lib "${LFS_OUTPUT_DIR}"/rootfs/lib
+# Ensure the destination directory exists
+mkdir -p "${LFS_OUTPUT_DIR}/rootfs/lib"
 
-copy_item "${LFS_OUTPUT_DIR}"/kernel/lib/modules/*/arch/${ARCHITECTURE}/boot/zImage"${LFS_OUTPUT_DIR}"/
+# Copy lib/ to rootfs
+copy_item "${LINUX_KERNEL_DIR}/lib" "${LFS_OUTPUT_DIR}/rootfs/lib"
 
-copy_item "${LFS_OUTPUT_DIR}"/kernel/lib/modules/*/arch/${ARCHITECTURE}/boot/dts/"${LINUX_TARGET_SOC_OEM}"/"${LINUX_TARGET_DTB} "${LFS_OUTPUT_DIR}"/
+# Copy zImage to LFS_OUTPUT_DIR
+# Copy DTB file to LFS_OUTPUT_DIR
+copy_item "${LFS_OUTPUT_DIR}/modules/*/arch/${ARCHITECTURE}/boot/dts/${LINUX_TARGET_SOC_OEM}/${LINUX_TARGET_DTB_NAME}" "${LFS_OUTPUT_DIR}/"
+
+log_info "All dependencies copied successfully"

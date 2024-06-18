@@ -60,10 +60,10 @@ readonly LFS_OUTPUT_DIR="${BASE_DIR}/output"
 readonly BUILD_CROSS_COMPILER_PATH="/opt/compilers/arm-linux-gnueabihf/bin"
 
 # Prefix for the cross-compiler tools
-readonly BUILD_CROSS_COMPILER_PREFIX="aarch64-linux-gnu-"
+readonly BUILD_CROSS_COMPILER_PREFIX="arm-linux-gnueabihf-"
 
 # Target architecture
-readonly ARCHITECTURE="aarch64"
+readonly ARCHITECTURE="arm"
 
 ########################################################
 # CrossNG Configuration
@@ -83,7 +83,7 @@ readonly CROSSNG_TARGET="arm-unknown-linux-gnueabi"
 readonly UBOOT_DIR="${BASE_DIR}/bootloaders/uboot"
 
 # U-Boot target configuration
-readonly UBOOT_TARGET="vexpress_ca9x4_defconfig"
+readonly UBOOT_TARGET="bcm2835_defconfig"
 
 # U-Boot binary output file
 readonly UBOOT_BIN="${LFS_OUTPUT_DIR}/u-boot.bin"
@@ -106,7 +106,7 @@ readonly LINUX_KERNEL_TARGET_DEFCONFIG="bcm2835_defconfig"
 
 readonly LINUX_TARGET_SOC_OEM="broadcom"
 
-readonly LINUX_TARGET_DTB="bcm2835-rpi-b.dtb"
+readonly LINUX_TARGET_DTB_NAME="bcm2835-rpi-b.dtb"
 
 # Directory for installing Linux kernel modules
 readonly LINUX_INSTALL_MOD_PATH="${BASE_DIR}/output/kernel"
