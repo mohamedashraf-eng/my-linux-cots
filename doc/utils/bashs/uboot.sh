@@ -60,7 +60,7 @@
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
-source ./utils.sh
+bash ./utils.sh && source ./utils.sh
 
 # Verify that essential directories exist
 check_directory $UBOOT_DIR
@@ -106,3 +106,10 @@ else
         log_error "u-boot does not exist in $UBOOT_DIR"
     fi
 fi
+
+log_info "Copying depenencies"
+
+copy_target ${UBOOT_DIR}/u-boot.bin ${LFS_OUTPUT_DIR}
+copy_target ${UBOOT_DIR}/u-boot ${LFS_OUTPUT_DIR}
+
+log_info "Done copying depenencies"

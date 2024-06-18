@@ -144,7 +144,7 @@ readonly QEMU_TARGET_MACHINE_SOC="bcm2835"
 readonly QEMU_TARGET_MEMORY="1G"
 
 # Kernel for QEMU target machine
-readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/u-boot"
+readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/zImage"
 
 # Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""

@@ -43,5 +43,5 @@
 bash ./constants.sh && source ./constants.sh
 source ./utils.sh
 
-qemu-system-arm -M "${QEMU_TARGET_MACHINE}" -m "${QEMU_TARGET_MEMORY}" -kernel "${QEMU_TARGET_KERNEL}" "${QEMU_EXTRA_OPTIONS}"
+qemu-system-${QEMU_TARGET_MACHINE_ARCH} -M "${QEMU_TARGET_MACHINE}" -m "${QEMU_TARGET_MEMORY}" -kernel "${QEMU_TARGET_KERNEL}" "${QEMU_EXTRA_OPTIONS}"
 check_return $? "QEMU execution"

@@ -112,10 +112,14 @@ log_info "Copying kernel depenencies"
 mkdir -p "${LFS_OUTPUT_DIR}/rootfs/lib"
 
 # Copy lib/ to rootfs
-copy_item "${LINUX_KERNEL_DIR}/lib" "${LFS_OUTPUT_DIR}/rootfs/lib"
+copy_item "${LINUX_KERNEL_DIR}/lib" "${LFS_OUTPUT_DIR}/rootfs/"
+
+# TODO: Make a generic way to figure the kernel modules place <6.6.34+>
 
 # Copy zImage to LFS_OUTPUT_DIR
+copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/zImage" "${LFS_OUTPUT_DIR}/"
+
 # Copy DTB file to LFS_OUTPUT_DIR
-copy_item "${LFS_OUTPUT_DIR}/modules/*/arch/${ARCHITECTURE}/boot/dts/${LINUX_TARGET_SOC_OEM}/${LINUX_TARGET_DTB_NAME}" "${LFS_OUTPUT_DIR}/"
+copy_item "${LINUX_INSTALL_MOD_PATH}/modules/6.6.34+/build/arch/${ARCHITECTURE}/boot/dts/${LINUX_TARGET_SOC_OEM}/${LINUX_TARGET_DTB_NAME}" "${LFS_OUTPUT_DIR}/"
 
 log_info "All dependencies copied successfully"

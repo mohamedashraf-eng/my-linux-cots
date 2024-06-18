@@ -139,11 +139,14 @@ mdev -s  # Scan /sys and populate /dev
 EOL
 log_info "Done writing content into rcS"
 #
-# TODO: Copy the generated `lib` directory from linux kernel build to the rootfs.
 
 log_info "Root filesystem setup completed"
+
+# Ensure the destination directory exists
+mkdir -p "${LFS_OUTPUT_DIR}/rootfs"
+
 #
-copy_item "${BUSYBOX_OUTPUT_DIR}" "${LFS_OUTPUT_DIR}"/rootfs
+copy_item "${BUSYBOX_OUTPUT_DIR}"/. "${LFS_OUTPUT_DIR}"/rootfs
 
 log_info "BusyBox setup completed"
 
