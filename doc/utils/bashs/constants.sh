@@ -161,7 +161,17 @@ readonly QEMU_EXTRA_OPTIONS="
 -nographic \
 -append \"console=ttyAMA0\" \
 -d guest_errors \
+-sd ${LFS_OUTPUT_DIR}/sdcard/file.img
 "
+########################################################
+# Disk Configuration
+########################################################
+
+IMAGE_SIZE=${IMAGE_SIZE:-1024} # in MB
+
+FAT_SIZE=${FAT_SIZE:-512}      # in MB
+
+EXT4_SIZE=${EXT4_SIZE:-512}    # in MB
 
 ########################################################
 # Utility Functions

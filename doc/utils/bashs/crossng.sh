@@ -58,7 +58,7 @@
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
-source ./utils.sh
+bash ./utils.sh && source ./utils.sh
 
 # Verify that essential directories exist
 check_directory "${CROSSNG_DIR}"
