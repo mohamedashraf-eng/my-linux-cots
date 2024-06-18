@@ -1,0 +1,30 @@
+@startuml ProxyPattern
+
+skinparam packageStyle rectangle
+
+package "Proxy Design Pattern" {
+    interface Sensor {
+        +readValue()
+    }
+
+    class RealSensor {
+        +readValue()
+    }
+
+    class SensorProxy {
+        -RealSensor* realSensor
+        -bool accessGranted
+        +SensorProxy()
+        +~SensorProxy()
+        +grantAccess()
+        +revokeAccess()
+        +readValue()
+    }
+
+    Sensor <|.. RealSensor
+    Sensor <|.. SensorProxy
+
+    SensorProxy --> RealSensor : controls access
+}
+
+@enduml
