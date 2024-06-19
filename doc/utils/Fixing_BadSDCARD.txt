@@ -1,0 +1,24 @@
+Open windows Disk Part
+
+List Disks:
+
+Type list disk and press Enter. This command will display a list of all connected storage devices, including your SD card.
+Identify your SD card based on its size. Note the disk number associated with your SD card.
+Select the SD Card:
+
+Type select disk X (replace X with the disk number of your SD card) and press Enter.
+Clean the SD Card:
+
+Type clean and press Enter. This command removes all partitions from the SD card.
+Create a New Partition:
+
+Type create partition primary and press Enter. This command creates a new primary partition on the SD card.
+Format the Partition:
+
+Type format fs=fat32 quick and press Enter. This command formats the partition as FAT32.
+Assign a Drive Letter:
+
+Type assign and press Enter. This command assigns a drive letter to the SD card.
+Exit DiskPart:
+
+Type exit and press Enter to exit DiskPart.

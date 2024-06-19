@@ -1,0 +1,39 @@
+@startuml AdapterPattern
+
+' Interface for UART
+interface LegacyUART {
+    + read() : void
+    + write(data : string) : void
+}
+
+' Interface for SPI
+interface SPI {
+    + transfer(data : string) : void
+}
+
+' Concrete implementation of SPI
+class SPIImpl {
+    + transfer(data : string) : void
+}
+
+' Adapter class that makes UART compatible with SPI
+class UARTToSPIAdapter {
+    - spi : SPI
+    + UARTToSPIAdapter(spi : SPI)
+    + read() : void
+    + write(data : string) : void
+}
+
+' Concrete implementation of UART
+class UARTImpl {
+    + read() : void
+    + write(data : string) : void
+}
+
+LegacyUART <|.. UARTImpl
+SPI <|.. SPIImpl
+LegacyUART <|.. UARTToSPIAdapter
+
+UARTToSPIAdapter o--> SPI : adapts
+
+@enduml

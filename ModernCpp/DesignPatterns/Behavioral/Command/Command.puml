@@ -1,0 +1,46 @@
+@startuml CommandPattern
+
+skinparam packageStyle rectangle
+
+package "Command Design Pattern" {
+    interface Command {
+        +execute()
+    }
+
+    class LED {
+        +on()
+        +off()
+    }
+
+    class LEDOnCommand {
+        -LED* led_
+        +execute()
+    }
+
+    class LEDOffCommand {
+        -LED* led_
+        +execute()
+    }
+
+    class RemoteControl {
+        -Command* command_
+        +setCommand(Command* command)
+        +pressButton()
+    }
+
+    LEDOnCommand --|> Command
+    LEDOffCommand --|> Command
+
+    LEDOnCommand o--> LED : depends on
+    LEDOffCommand o--> LED : depends on
+
+    RemoteControl o--> Command : uses
+
+    LED : Receiver
+    LEDOnCommand : ConcreteCommand
+    LEDOffCommand : ConcreteCommand
+    RemoteControl : Invoker
+    Command : Command
+}
+
+@enduml

@@ -1,0 +1,10 @@
+.vscode/
+busybox/
+cots/
+crossng/
+ldd/
+kernel/
+bootloaders/
+yocto/
+output/
+qemu-arm-docker/

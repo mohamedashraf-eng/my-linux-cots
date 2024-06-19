@@ -1,0 +1,6 @@
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/CMakeFiles/edit_cache.dir
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/CMakeFiles/rebuild_cache.dir
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/tests/CMakeFiles/circular_buffer_test.dir
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/tests/CMakeFiles/coverage.dir
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/tests/CMakeFiles/edit_cache.dir
+/workspace/ModernCpp/LearningFromScratch/Practice/CB/build/tests/CMakeFiles/rebuild_cache.dir
