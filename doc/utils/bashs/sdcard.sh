@@ -4,7 +4,7 @@
 # @autor: Mohamed Ashraf
 # @date: 12 June 2024
 # @version: 1.0.0
-# @brief: This file is used to create and partition an SD card image.
+# @brief: This file is used to create and partition an SD card image or use an existing one.
 #
 # @attention:
 # 
@@ -49,12 +49,12 @@
 # 
 # - Sources constants and utilities.
 # - Creates an output directory for the SD card image.
-# - Creates a blank image file of the specified size.
-# - Uses fdisk to create a DOS partition table and two partitions (FAT16 and ext4).
+# - Creates a blank image file of the specified size (if it doesn't exist).
+# - Uses fdisk to create a DOS partition table and two partitions (FAT16 and ext4) if creating a new image.
 # - Associates the image file with a loop device.
 # - Refreshes the partition table.
 # - Creates device maps for the partitions using kpartx.
-# - Formats the partitions as FAT16 and ext4.
+# - Formats the partitions as FAT16 and ext4 if creating a new image.
 # - Mounts the FAT16 partition, optionally copies files, and unmounts it.
 # - Mounts the ext4 partition, optionally copies files, and unmounts it.
 # - Removes the device maps and detaches the loop device.
@@ -65,34 +65,39 @@
 bash ./constants.sh && source ./constants.sh
 bash ./utils.sh && source ./utils.sh
 
-# Output directory for the SD card image
+# Path for the image file
+FILE_IMG_PATH=${LFS_OUTPUT_DIR}/sdcard/${_LFS_OUTPUT_EXT_DIR}.img
+
+# Create the output directory for the SD card image if it doesn't exist
 mkdir -p ${LFS_OUTPUT_DIR}/sdcard/
 
-# Path for the image file
-FILE_IMG_PATH=${LFS_OUTPUT_DIR}/sdcard/file.img
+# Check if the SD card image file already exists
+if [ -f "${FILE_IMG_PATH}" ]; then
+    log_info "SD card image file already exists. Using the existing image."
+else
+    # Create a new image file
+    log_info "Creating image file..."
+    dd if=/dev/zero of=${FILE_IMG_PATH} bs=1M count=${IMAGE_SIZE} status=progress
 
-# Create the image file
-log_info "Creating image file..."
-dd if=/dev/zero of=${FILE_IMG_PATH} bs=1M count=${IMAGE_SIZE} status=progress
-
-# Create partitions using fdisk
-log_info "Partitioning the image file..."
-{
-    echo o      # Create a new empty DOS partition table
-    echo n      # Add a new partition
-    echo p      # Primary partition
-    echo 1      # Partition number
-    echo        # First sector (Accept default: 2048)
-    echo +${FAT_SIZE}M  # Last sector
-    echo t      # Change partition type
-    echo e      # Set type to W95 FAT16 (LBA)
-    echo n      # Add a new partition
-    echo p      # Primary partition
-    echo 2      # Partition number
-    echo        # First sector (Accept default)
-    echo        # Last sector (Accept default: remaining space)
-    echo w      # Write changes
-} | fdisk ${FILE_IMG_PATH}
+    # Create partitions using fdisk
+    log_info "Partitioning the image file..."
+    {
+        echo o      # Create a new empty DOS partition table
+        echo n      # Add a new partition
+        echo p      # Primary partition
+        echo 1      # Partition number
+        echo        # First sector (Accept default: 2048)
+        echo +${FAT_SIZE}M  # Last sector
+        echo t      # Change partition type
+        echo e      # Set type to W95 FAT16 (LBA)
+        echo n      # Add a new partition
+        echo p      # Primary partition
+        echo 2      # Partition number
+        echo        # First sector (Accept default)
+        echo        # Last sector (Accept default: remaining space)
+        echo w      # Write changes
+    } | fdisk ${FILE_IMG_PATH}
+fi
 
 # Associate the loop device
 LOOP_DEVICE=$(losetup -f --show ${FILE_IMG_PATH})
@@ -109,10 +114,12 @@ LOOP_NAME=$(basename ${LOOP_DEVICE})
 log_info "Creating device maps for partitions..."
 kpartx -av ${LOOP_DEVICE}
 
-# Format the partitions
-log_info "Formatting the ${LOOP_NAME} partitions..."
-mkfs.fat -F 16 /dev/mapper/${LOOP_NAME}p1
-mkfs.ext4 /dev/mapper/${LOOP_NAME}p2
+# Format the partitions if creating a new image
+if [ ! -f "${FILE_IMG_PATH}" ]; then
+    log_info "Formatting the ${LOOP_NAME} partitions..."
+    mkfs.fat -F 16 /dev/mapper/${LOOP_NAME}p1
+    mkfs.ext4 /dev/mapper/${LOOP_NAME}p2
+fi
 
 # Mount the FAT16 partition, copy files, and unmount
 log_info "Mounting FAT16 partition and copying files..."
@@ -120,6 +127,7 @@ mkdir -p /mnt/fat16
 mount /dev/mapper/${LOOP_NAME}p1 /mnt/fat16
 #############################################################
 ## Copy files to FAT16 partition
+## Run any process before umount
 ## Un comment this line to copy a file or directory while processing
 copy_item ${FILE_TO_COPY_FAT} /mnt/fat16/ 
 #############################################################
@@ -132,8 +140,17 @@ mkdir -p /mnt/ext4
 mount /dev/mapper/${LOOP_NAME}p2 /mnt/ext4
 #############################################################
 # Copy files to ext4 partition
+## Run any process before umount
 ## Un comment this line to copy a file or directory while processing
-# copy_item ${FILE_TO_COPY_EXT4}  /mnt/ext4/ 
+copy_item ${FILE_TO_COPY_EXT4}  /mnt/ext4/
+
+chmod +x ./mnt/ext4/etc/init.d/*
+chmod +x ./mnt/ext4/etc/rcS/*
+chmod +x ./mnt/ext4/etc/rc5/*
+
+mknod /mnt/ext4/dev/tty2 c 4 2
+mknod /mnt/ext4/dev/tty3 c 4 3
+mknod /mnt/ext4/dev/tty4 c 4 4
 #############################################################
 umount /mnt/ext4
 rmdir /mnt/ext4

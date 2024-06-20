@@ -162,11 +162,9 @@ readonly QEMU_TARGET_MACHINE="vexpress-a9"
 
 readonly QEMU_EXTRA_OPTIONS="
 -nographic \
--append \"console=ttyAMA0,115200 rdinit=/bin/sh\" \
--initrd ${LFS_OUTPUT_DIR}/initramdisk.cpio.gz
+-append \"console=ttyAMA0,115200 root=/dev/mmcblk0p2 rw \" \
+-sd ${LFS_OUTPUT_DIR}/sdcard/${_LFS_OUTPUT_EXT_DIR}.img
 "
-# -sd ${LFS_OUTPUT_DIR}/sdcard/file.img
-
 ########################################################
 # Disk Configuration
 ########################################################
@@ -179,7 +177,7 @@ EXT4_SIZE=${EXT4_SIZE:-512}    # in MB
 
 FILE_TO_COPY_FAT="/workspace/bootloaders/uboot/u-boot.bin"
 
-FILE_TO_COPY_EXT4=""
+FILE_TO_COPY_EXT4="${LFS_OUTPUT_DIR}/rootfs/."
 
 ########################################################
 # Utility Functions
