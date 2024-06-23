@@ -61,6 +61,7 @@ RUN apt-get update && \
     ca-certificates \
     curl \
     gnupg \
+    linux-headers-generic \
     && rm -rf /var/lib/apt/lists/*
 
 # Set locale
@@ -100,6 +101,8 @@ RUN apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf gcc-aarch64-
 
 # Install gcovr tool
 RUN pip3 install gcovr==7.2
+
+RUN apt-get update && apt-get upgrade
 
 # Set the default command
 CMD ["/bin/bash"]
