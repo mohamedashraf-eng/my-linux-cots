@@ -1,0 +1,30 @@
+@startuml solid
+title SOLID Principles Example - Embedded LED Control
+
+interface LEDInterface {
+  + turnOn()
+  + turnOff()
+}
+
+class RaspberryPiLED {
+  + turnOn()
+  + turnOff()
+}
+
+class BeagleBoneLED {
+  + turnOn()
+  + turnOff()
+}
+
+class LEDController {
+  - LEDInterface* led
+  + LEDController(LEDInterface* led)
+  + turnOn()
+  + turnOff()
+}
+
+LEDInterface <|.. RaspberryPiLED
+LEDInterface <|.. BeagleBoneLED
+LEDController *-- LEDInterface
+
+@enduml
