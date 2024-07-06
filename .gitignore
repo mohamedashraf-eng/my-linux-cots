@@ -7,4 +7,3 @@ kernel/
 bootloaders/
 yocto/
 output/
-qemu-arm-docker/

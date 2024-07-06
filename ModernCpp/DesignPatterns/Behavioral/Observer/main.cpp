@@ -1,4 +1,4 @@
-//! Learning Design Patterns CPP_GOF_Singleton
+//! Learning Design Patterns 
 //! @author Mohamed Ashraf
 //
 #include "Sensor.hpp"

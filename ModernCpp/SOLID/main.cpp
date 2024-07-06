@@ -10,17 +10,31 @@
 //! ISP: Each platform has its specific implementation without forcing methods that are not used.
 //! DIP: LEDController depends on the LEDInterface abstraction, not concrete implementations.
 
+//! LEDInterface: The interface for LED control, ensuring all derived classes implement turnOn and turnOff methods.
+//! RaspberryPiLED and BeagleBoneLED: Platform-specific implementations of the LED control interface.
+//! LEDController: The high-level module that uses an instance of LEDInterface to control the LED, demonstrating dependency inversion.
+//! Main: Demonstrates how to switch between different platform implementations without changing the LEDController logic, 
+//! adhering to the open/closed principle.
+
+
+/**
+ * @brief Main function that demonstrates the usage of the LEDController.
+ *
+ * @return int The exit status of the program.
+ *
+ * @throws None
+ */
 int main() {
-    LEDInterface* rpiLED = new RaspberryPiLED();
-    LEDInterface* bbLED = new BeagleBoneLED();
+    RaspberryPiLED* rpiLED = new RaspberryPiLED();
+    BeagleBoneLED* bbLED = new BeagleBoneLED();
 
-    LEDController controller(rpiLED);
-    controller.turnOn();
-    controller.turnOff();
+    LEDController<RaspberryPiLED> controllerRpi(rpiLED);
+    controllerRpi.turnOn();
+    controllerRpi.turnOff();
 
-    controller = LEDController(bbLED);
-    controller.turnOn();
-    controller.turnOff();
+    LEDController<BeagleBoneLED> controllerBb(bbLED);
+    controllerBb.turnOn();
+    controllerBb.turnOff();
 
     delete rpiLED;
     delete bbLED;

@@ -39,9 +39,7 @@
 # 
 #################################################################################################
 
-#
-#! NOTE: This file is tested on linux-docker image only.
-#
+# NOTE: This file is tested on a Linux Docker image only.
 
 ###
 # Summary
@@ -60,6 +58,10 @@
 # - Removes the device maps and detaches the loop device.
 # - Logs a completion message.
 ####
+
+# Ensure required tools are installed
+# apt-get update
+# apt-get install -y udev kpartx util-linux dosfstools
 
 # Include constants and utilities
 bash ./constants.sh && source ./constants.sh
@@ -114,12 +116,10 @@ LOOP_NAME=$(basename ${LOOP_DEVICE})
 log_info "Creating device maps for partitions..."
 kpartx -av ${LOOP_DEVICE}
 
-# Format the partitions if creating a new image
-if [ ! -f "${FILE_IMG_PATH}" ]; then
-    log_info "Formatting the ${LOOP_NAME} partitions..."
-    mkfs.fat -F 16 /dev/mapper/${LOOP_NAME}p1
-    mkfs.ext4 /dev/mapper/${LOOP_NAME}p2
-fi
+# Format the partitions
+log_info "Formatting the ${LOOP_NAME} partitions..."
+mkfs.fat -F 16 /dev/mapper/${LOOP_NAME}p1
+mkfs.ext4 /dev/mapper/${LOOP_NAME}p2
 
 # Mount the FAT16 partition, copy files, and unmount
 log_info "Mounting FAT16 partition and copying files..."
@@ -128,11 +128,12 @@ mount /dev/mapper/${LOOP_NAME}p1 /mnt/fat16
 #############################################################
 ## Copy files to FAT16 partition
 ## Run any process before umount
-## Un comment this line to copy a file or directory while processing
+## Uncomment this line to copy a file or directory while processing
 copy_item ${FILE_TO_COPY_FAT} /mnt/fat16/ 
+#
 #############################################################
 umount /mnt/fat16
-rmdir /mnt/fat16
+rm -rf /mnt/fat16
 
 # Mount the ext4 partition, copy files, and unmount
 log_info "Mounting ext4 partition and copying files..."
@@ -141,19 +142,16 @@ mount /dev/mapper/${LOOP_NAME}p2 /mnt/ext4
 #############################################################
 # Copy files to ext4 partition
 ## Run any process before umount
-## Un comment this line to copy a file or directory while processing
-copy_item ${FILE_TO_COPY_EXT4}  /mnt/ext4/
-
-chmod +x ./mnt/ext4/etc/init.d/*
-chmod +x ./mnt/ext4/etc/rcS/*
-chmod +x ./mnt/ext4/etc/rc5/*
-
-mknod /mnt/ext4/dev/tty2 c 4 2
-mknod /mnt/ext4/dev/tty3 c 4 3
-mknod /mnt/ext4/dev/tty4 c 4 4
+## Uncomment this line to copy a file or directory while processing
+copy_item ${FILE_TO_COPY_EXT4} /mnt/ext4/
+## Commands to run
+chmod +x /mnt/ext4/etc/*
+chmod +x /mnt/ext4/etc/init.d/*
+chmod +x /mnt/ext4/etc/rcS.d/*
+chmod +x /mnt/ext4/etc/profile.d/*
 #############################################################
 umount /mnt/ext4
-rmdir /mnt/ext4
+rm -rf /mnt/ext4
 
 # Remove the device maps and detach the loop device
 log_info "Cleaning up..."

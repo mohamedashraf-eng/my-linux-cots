@@ -1,0 +1,9 @@
+@startuml CommandPattern
+
+skinparam packageStyle rectangle
+
+package "Command Design Pattern" {
+ 
+}
+
+@enduml

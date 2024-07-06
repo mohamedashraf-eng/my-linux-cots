@@ -1,0 +1,34 @@
+@startuml DeocratorPattern
+
+skinparam packageStyle rectangle
+
+package "Decorator Design Pattern" {
+    interface Component {
+        +void operation()
+    }
+
+    class ConcreteComponent {
+        +void operation()
+    }
+
+    abstract class Decorator {
+        -Component* component
+        +void operation()
+    }
+
+    class LoggingDecorator {
+        +void operation()
+    }
+
+    class TimingDecorator {
+        +void operation()
+    }
+
+    Component <|-- ConcreteComponent
+    Component <|-- Decorator
+    Decorator <|-- LoggingDecorator
+    Decorator <|-- TimingDecorator
+    Decorator o--> Component
+}
+
+@enduml
