@@ -146,10 +146,11 @@ readonly QEMU_TARGET_MACHINE_SOC="arm"
 readonly QEMU_TARGET_MEMORY="128M"
 
 # Kernel for QEMU target machine
-readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/boot/zImage"
+readonly QEMU_TARGET_KERNEL="${LFS_OUTPUT_DIR}/boot/u-boot"
 
 # DTB for QEMU target machine
 readonly QEMU_TARGET_DTB="${LFS_OUTPUT_DIR}/boot/vexpress-v2p-ca9.dtb"
+
 
 # Disk image for QEMU target machine
 readonly QEMU_TARGET_IMAGE=""
@@ -162,9 +163,9 @@ readonly QEMU_TARGET_MACHINE="vexpress-a9"
 
 readonly QEMU_EXTRA_OPTIONS="
 -nographic \
--append \"console=ttyAMA0,115200 root=/dev/mmcblk0p2 rw \" \
 -sd ${LFS_OUTPUT_DIR}/sdcard/${_LFS_OUTPUT_EXT_DIR}.img
 "
+# -append \"console=ttyAMA0,115200 root=/dev/mmcblk0p2 rw \" \
 ########################################################
 # Disk Configuration
 ########################################################

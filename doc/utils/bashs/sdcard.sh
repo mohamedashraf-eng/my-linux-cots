@@ -104,9 +104,9 @@ fi
 # Associate the loop device
 LOOP_DEVICE=$(losetup -f --show ${FILE_IMG_PATH})
 log_info "Image file mounted as ${LOOP_DEVICE}"
-
+ 
 # Refresh the partition table
-log_info "Refreshing partition table..."
+log_info "Refreshing partition table..." 
 partprobe ${LOOP_DEVICE}
 
 # Get the loop device name without the /dev/ prefix
